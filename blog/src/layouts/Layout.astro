@@ -107,8 +107,8 @@ const showCalculator = frontmatter.id === 'empiresdementia';
 
         <!-- Main Layout Container -->
         <main class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12" id="article">
-            <!-- Left Column: The Main Article / Page content (8 cols on lg) -->
-            <div class="lg:col-span-8">
+            <!-- Left Column: The Main Article / Page content (9 cols on lg) -->
+            <div class="lg:col-span-9">
                 {isPost ? (
                     <article class="prose dark:prose-invert prose-slate max-w-none text-base leading-relaxed text-slate-700 dark:text-zinc-300">
                         {frontmatter.coverImage && (
@@ -130,8 +130,8 @@ const showCalculator = frontmatter.id === 'empiresdementia';
                 )}
             </div>
             
-            <!-- Right Column: Sidebar (4 cols on lg) -->
-            <div class="lg:col-span-4">
+            <!-- Right Column: Sidebar (3 cols on lg) -->
+            <div class="lg:col-span-3">
                 <Sidebar showCalculator={showCalculator} />
             </div>
         </main>
