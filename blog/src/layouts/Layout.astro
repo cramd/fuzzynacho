@@ -67,6 +67,14 @@ const showCalculator = frontmatter.id === 'empiresdementia';
         <!-- Main Hero Banner -->
         <div class="bg-gradient-to-b from-slate-100 to-transparent dark:from-zinc-900/30 py-10 border-b border-slate-200/50 dark:border-zinc-900">
             <div class="max-w-4xl mx-auto px-4 text-center">
+                {isPost && (
+                    <div class="mb-6 flex justify-center">
+                        <a href="/blog" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400 transition-colors">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            Back to all posts
+                        </a>
+                    </div>
+                )}
                 {isPost && tags.length > 0 && (
                     <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-950/40 rounded-full">
                         {tags[0]}
@@ -109,6 +117,12 @@ const showCalculator = frontmatter.id === 'empiresdementia';
                             </div>
                         )}
                         <slot />
+                        <div class="mt-12 pt-8 border-t border-slate-200 dark:border-zinc-800">
+                            <a href="/blog" class="inline-flex items-center text-base font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors group">
+                                <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                                Back to all posts
+                            </a>
+                        </div>
                     </article>
                     <slot name="after-article" />
                 ) : (
