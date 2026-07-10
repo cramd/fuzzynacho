@@ -4,7 +4,7 @@ import Comments from '../components/Comments.astro';
 import Layout from '../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', ({ data }) => data.published !== false);
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -16,6 +16,7 @@ const { Content } = await render(post);
 ---
 
 <Layout frontmatter={{
+  id: post.id,
   title: post.data.title,
   description: post.data.description,
   pubDate: post.data.pubDate,

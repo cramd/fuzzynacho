@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection('blog', ({ data }) => data.published !== false);
 const posts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -71,7 +71,7 @@ const regularPosts = featuredPost ? posts.filter((post) => post.id !== featuredP
         <div class="space-y-6">
             <h2 class="text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-zinc-500">Latest Transmissions</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 auto-rows-fr">
                 {regularPosts.map((post) => (
                     <a href={`/blog/${post.id}`} class="block group h-full">
                         <article class="flex flex-col h-full bg-white dark:bg-zinc-850 rounded-2xl border border-stone-200/60 dark:border-zinc-700/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">

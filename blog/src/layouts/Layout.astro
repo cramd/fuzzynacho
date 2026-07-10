@@ -16,6 +16,7 @@ const tags = frontmatter.tags || [];
 const seoTitle = frontmatter.seoTitle || title;
 const seoDescription = frontmatter.seoDescription || description;
 const socialImage = frontmatter.socialImage || frontmatter.coverImage || "/blog/favicon.svg";
+const showCalculator = frontmatter.id === 'empiresdementia';
 ---
 
 <!doctype html>
@@ -114,7 +115,7 @@ const socialImage = frontmatter.socialImage || frontmatter.coverImage || "/blog/
             
             <!-- Right Column: Sidebar (4 cols on lg) -->
             <div class="lg:col-span-4">
-                <Sidebar />
+                <Sidebar showCalculator={showCalculator} />
             </div>
         </main>
 

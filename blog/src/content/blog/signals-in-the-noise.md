@@ -10,6 +10,7 @@ seoDescription: "How to build a commercial intelligence framework and transition
 socialImage: "/blog/signals-in-the-noise.jpg"
 coverImageAlt: "A dark schematic grid illustrating signals and noise filters."
 featured: false
+published: true
 ---
 
 > **TL;DR:** Community goodwill is a moat, but it isn't a pipeline. High Docker pulls and GitHub stars often mask a broken Go-To-Market strategy, leading to inflated MQL costs, burned-out sales teams, and panicked license changes. To convert open-source adoption into enterprise revenue, companies must shift from traditional community evangelism to dedicated Customer Marketing. This piece breaks down how to stop bloating your free core, avoid the "license panic" trap, and build a commercial intelligence framework—tracking identity, intent, and account gravity—that hands your sales team actionable context instead of anonymous contacts.

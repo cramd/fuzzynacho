@@ -10,7 +10,8 @@ seoTitle: "Stop Writing Monolithic Prompts: Modular AI Skills"
 seoDescription: "Learn why treating AI system prompts like containerized microservices improves debugging, maintainability, and model agility."
 socialImage: "/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy.png"
 coverImageAlt: "A split comparison diagram showing monolithic prompts vs modular AI skills."
-featured: false
+featured: true
+published: true
 ---
 
 If you’ve started integrating AI into your applications recently, you’ve probably fallen into the same trap I did.
@@ -38,7 +39,7 @@ Think of it this way:
 * **Standard Coding:** `function formatHardwareData(input)` $\rightarrow$ returns clean JSON.
 * **Modular AI:** `skill_ExtractSpecs(unstructured_text)` $\rightarrow$ returns clean JSON.
 
-![Traditional Docker Containerization vs Containerized AI Skills](/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy (1).png)
+![Traditional Docker Containerization vs Containerized AI Skills](/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy_1.png)
 
 ## Why the Container Approach Changes Everything
 
@@ -53,7 +54,7 @@ When a monolithic prompt fails, you don't know why. Did it fail at reasoning? Fo
 ### 3. You Become Model-Agnostic
 This is the biggest win. I jump between local models on Ollama and cloud APIs constantly. When your AI is built as modular functions, you can route lightweight skills (like basic text formatting) to a fast, free local model, and route the heavy-lifting reasoning skills to a commercial powerhouse. Swapping the underlying LLM engine shouldn't break your app, just like swapping a database engine shouldn't break your frontend.
 
-![Modular AI Model-Agnostic Router](/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy (2).png)
+![Modular AI Model-Agnostic Router](/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy_2.png)
 
 ## The Shift from Prompting to Engineering
 

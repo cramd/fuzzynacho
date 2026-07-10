@@ -10,6 +10,7 @@ seoDescription: "How to build a Caddy-driven Proxmox homelab to nuke infrastruct
 socialImage: "/blog/images/blog/unified-homelab/hero.jpg"
 coverImageAlt: "A structured diagram of a Caddy reverse proxy server routing traffic to Proxmox VMs."
 featured: false
+published: true
 ---
 
 Side projects are like a gas—they expand to fill whatever container you put them in. What starts as one simple idea inevitably mutates into a fragmented mess of scattered hosting. Right now, I’m juggling BdayLoot, HuntMode, partsensei.com, a custom LEGO collection tracker, and the main fuzzynacho.org portal.

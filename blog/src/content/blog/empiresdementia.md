@@ -9,7 +9,8 @@ seoTitle: "The Gerontocracy & Empire Dementia"
 seoDescription: "An in-depth systems analysis of political term limits and institutional decay in the modern American empire."
 socialImage: "/blog/empire-dementia-hero.jpg"
 coverImageAlt: "A political cartoon illustrating system decay with a cracked capitol dome."
-featured: true
+featured: false
+published: true
 ---
 
 <figure class="my-8">

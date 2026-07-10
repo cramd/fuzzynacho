@@ -15,6 +15,7 @@ const blog = defineCollection({
     socialImage: z.string(),
     coverImageAlt: z.string(),
     featured: z.boolean().default(false),
+    published: z.boolean().default(true),
   }),
 });
 
