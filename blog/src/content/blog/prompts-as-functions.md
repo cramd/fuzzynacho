@@ -11,10 +11,10 @@ seoDescription: "Learn why breaking down massive system prompts into modular AI 
 socialImage: "/blog/images/blog/aimod-future.png"
 coverImageAlt: "A clean, containerized pipeline of AI functions illustrating modular software architecture"
 featured: false
-published: false
+published: true
 ---
 
-In my last post, we talked about the danger of monolithic prompts—those mile-long blocks of text where we ask an LLM to be a data fetcher, an analyst, and a formatting engine all at once. 
+[In my last post](/blog/modular-ai-skills), we talked about the danger of monolithic prompts—those mile-long blocks of text where we ask an LLM to be a data fetcher, an analyst, and a formatting engine all at once. 
 
 When you are starting out or actively working to improve your development skills, it’s incredibly easy to fall into this trap. You start building out your own tools, things get messy, and you wonder: *Am I missing something here, or am I just on my own weird path?*
 
