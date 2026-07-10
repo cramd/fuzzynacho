@@ -5,10 +5,10 @@ pubDate: 2026-07-09
 author: "FuzzyNacho"
 tags: ["AI Engineering", "Software Architecture", "DevOps"]
 layout: ../layouts/Layout.astro
-coverImage: "/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy.png"
+coverImage: "/blog/images/blog/aimod-vs-monolith.jpg"
 seoTitle: "Stop Writing Monolithic Prompts: Modular AI Skills"
 seoDescription: "Learn why treating AI system prompts like containerized microservices improves debugging, maintainability, and model agility."
-socialImage: "/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy.png"
+socialImage: "/blog/images/blog/aimod-vs-monolith.jpg"
 coverImageAlt: "A split comparison diagram showing monolithic prompts vs modular AI skills."
 featured: true
 published: true
@@ -24,7 +24,7 @@ I was asking the AI to be a routing expert, a data formatter, a tone-checker, an
 
 That’s when it hit me: We need to stop treating AI as a magic black box and start treating it like standard software infrastructure.
 
-![Monolithic Prompts vs Modular AI Skills](/blog/Gemini_Generated_Image_u4iy6hu4iy6hu4iy.png)
+![Monolithic Prompts vs Modular AI Skills](/blog/images/blog/aimod-vs-monolith.jpg)
 
 ## The Epiphany: AI Skills are Just Functions
 
