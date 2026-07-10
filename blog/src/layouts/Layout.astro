@@ -28,6 +28,9 @@ const showCalculator = frontmatter.id === 'empiresdementia';
 		<link rel="icon" href="/favicon.ico" />
 		<title>{seoTitle} | FuzzyNacho</title>
 		<meta name="description" content={seoDescription} />
+		{frontmatter.published === false && (
+			<meta name="robots" content="noindex, nofollow" />
+		)}
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content={isPost ? "article" : "website"} />

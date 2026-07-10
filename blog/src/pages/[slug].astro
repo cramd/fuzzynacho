@@ -4,7 +4,7 @@ import Comments from '../components/Comments.astro';
 import Layout from '../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => data.published !== false);
+  const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -28,6 +28,7 @@ const { Content } = await render(post);
   socialImage: post.data.socialImage,
   coverImageAlt: post.data.coverImageAlt,
   featured: post.data.featured,
+  published: post.data.published,
 }}>
   <Content />
   <Comments slot="after-article" />
