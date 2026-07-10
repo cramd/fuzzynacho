@@ -1,0 +1,115 @@
+---
+description: Next.js, React, TypeScript, Supabase, and AI SDK coding standards
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Next.js / TypeScript Standards
+
+Stack: TypeScript, Node.js, Next.js 14 App Router, React, Supabase, GraphQL, Genql, Tailwind CSS, Radix UI, Shadcn UI.
+
+## Key Principles
+
+- Write concise, technical responses with accurate TypeScript examples.
+- Use functional, declarative programming. Avoid classes.
+- Prefer iteration and modularization over duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
+- Use lowercase with dashes for directories (e.g., `components/auth-wizard`).
+- Favor named exports for components.
+- Use the Receive an Object, Return an Object (RORO) pattern.
+
+## JavaScript / TypeScript
+
+- Use `function` keyword for pure functions. Omit semicolons.
+- Use TypeScript for all code. Prefer interfaces over types.
+- File structure order: exported component → subcomponents → helpers → static content → types.
+- Omit curly braces for single-line conditionals: `if (condition) doSomething()`
+
+## Error Handling
+
+- Handle errors and edge cases at the beginning of functions (guard clauses).
+- Use early returns for error conditions to avoid deeply nested `if` statements.
+- Place the happy path last in the function.
+- Avoid `else` after a `return`; use `if`/`return` pattern instead.
+- Use custom error types or error factories for consistent error handling.
+- Code in `services/` always throws user-friendly errors that can be caught and shown to the user.
+
+## React / Next.js
+
+- Use functional components and TypeScript interfaces. Use `function`, not `const`, for components.
+- Use declarative JSX. Use Shadcn UI, Radix, and Tailwind CSS for components and styling.
+- Minimize `use client`, `useEffect`, and `setState`. Favor React Server Components (RSC).
+- Wrap client components in `Suspense` with a fallback. Use dynamic loading for non-critical components.
+- Place static content and interfaces at file end. Use content variables for static content outside render functions.
+- Use Zod for form validation. Use `useActionState` with `react-hook-form` for form state.
+- Use `next-safe-action` for all server actions with type-safe validation.
+- Model expected errors as return values in Server Actions — avoid `try/catch` for expected errors.
+- Use `error.tsx` and `global-error.tsx` error boundaries for unexpected errors.
+- Optimize images: WebP format, explicit size data, lazy loading.
+- Implement responsive design with Tailwind CSS using a mobile-first approach.
+
+## AI SDK
+
+- Use Vercel AI SDK UI for streaming chat UI; AI SDK Core for model interactions.
+- Implement proper error handling for AI responses and model switching.
+- Provide fallback mechanisms when a model is unavailable.
+- Handle rate limiting and quota exceeded scenarios gracefully.
+- Sanitize user input before sending to AI models.
+- Store API keys in environment variables.
+
+## Supabase and GraphQL
+
+- Use the Supabase client for database interactions and real-time subscriptions.
+- Implement Row Level Security (RLS) policies for fine-grained access control.
+- Use Supabase Auth for authentication; Supabase Storage for file uploads.
+- Use the generated Genql client for type-safe GraphQL interactions.
+- Optimize queries to fetch only necessary data.
+
+## Naming Conventions
+
+- Booleans: `isDisabled`, `hasError`, `shouldRender` (auxiliary verb prefix).
+- Filenames: lowercase with dashes — `auth-wizard.tsx`.
+- Extensions: `.config.ts`, `.test.ts`, `.context.tsx`, `.type.ts`, `.hook.ts`.
+
+## Component Structure
+
+- Break components into smaller parts with minimal props.
+- Use micro folder structure per component when complexity warrants it.
+- Use composition to build complex UIs.
+- Order: component declaration → styled subcomponents (if any) → TypeScript types.
+- Use Class Variance Authority (CVA) for managing component variants.
+
+## Key Conventions
+
+1. Rely on Next.js App Router for state changes and routing.
+2. Prioritize Web Vitals: LCP, CLS, FID.
+3. Minimize `use client` — use only for direct Web API access in small components, not for data fetching or state management.
+4. Monorepo structure: shared code in `packages/`, app-specific code in `apps/`.
+5. Use Taskfile commands for development and deployment tasks.
+6. Adhere to the defined database schema; use enum tables for predefined values.
+
+## Data Fetching
+
+- Use React Server Components for data fetching when possible.
+- Implement the preload pattern to prevent waterfalls.
+- Leverage Supabase for real-time data synchronization.
+- Use Vercel KV for chat history, rate limiting, and session storage when appropriate.
+
+## Testing
+
+- Unit tests for utility functions and hooks.
+- Integration tests for complex components and pages.
+- End-to-end tests for critical user flows.
+- Use Supabase local development for testing database interactions.
+
+## Accessibility
+
+- Ensure interfaces are keyboard navigable.
+- Implement proper ARIA labels and roles.
+- Meet WCAG color contrast ratios for readability.
+
+## Documentation
+
+- Add comments only for complex or non-obvious logic.
+- Use JSDoc for functions and components to improve IDE intellisense.
+- Document Supabase schema, RLS policies, and Edge Functions when used.

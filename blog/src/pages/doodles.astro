@@ -1,0 +1,833 @@
+---
+// src/pages/doodles.astro
+// Automatically integrated for fuzzynacho.org/blog/doodles
+---
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive, searchable, and sortable gallery of wonky football doodles by No Score Draws for the 2026 World Cup.">
+  <title>No Score Draws - World Cup 2026 Art Gallery</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+  <!-- Decorative Background Glows -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="logo-emoji">✍🏻⚽</span>
+        <div class="brand-text">
+          <h1>No Score Draws</h1>
+          <p class="subtitle">World Cup 2026 Gallery</p>
+        </div>
+      </div>
+      
+      <div class="header-controls">
+        <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle light/dark theme">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m2.122 0l-.707-.707M17.657 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        
+        <a href="https://bsky.app/profile/noscoredraws.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary profile-link">
+          <svg class="bsky-icon" viewBox="0 0 64 57" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867-1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32-3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825-18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z" fill="currentColor"/>
+          </svg>
+          Bluesky Profile
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-content">
+    <section class="controls-section">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="search-input" placeholder="Search by player, team, country, county, description..." aria-label="Search drawings">
+        <button id="clear-search" class="clear-btn" aria-label="Clear search">&times;</button>
+      </div>
+
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="country-filter">Country</label>
+          <div class="select-wrapper">
+            <select id="country-filter" aria-label="Filter by Country">
+              <option value="">All Countries</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label for="county-filter">County</label>
+          <div class="select-wrapper">
+            <select id="county-filter" aria-label="Filter by County">
+              <option value="">All Counties</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label for="sort-select">Sort By</label>
+          <div class="select-wrapper">
+            <select id="sort-select" aria-label="Sort drawings">
+              <option value="date-desc">Date: Newest First</option>
+              <option value="date-asc">Date: Oldest First</option>
+              <option value="likes-desc">Likes: High to Low</option>
+              <option value="reposts-desc">Reposts: High to Low</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="active-tags-row" id="active-tags-container"></div>
+      
+      <div class="stats-bar">
+        <span class="stats-text" id="stats-display">Loading gallery...</span>
+      </div>
+    </section>
+
+    <section class="gallery-section">
+      <div class="art-grid" id="art-grid">
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+      </div>
+      
+      <div class="empty-state hidden" id="empty-state">
+        <div class="empty-emoji">🤷🏻‍♂️⚽</div>
+        <h3>No Doodles Found</h3>
+        <p>We couldn't find any wonky drawings matching your filters. Try clearing your filters or search terms.</p>
+        <button id="reset-filters-btn" class="btn btn-secondary">Reset All Filters</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-container">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close details">&times;</button>
+      
+      <div class="lightbox-content">
+        <div class="lightbox-media-container">
+          <img class="lightbox-img" id="lightbox-img" src="" alt="Wonky drawing fullsize">
+          <button class="nav-arrow prev-arrow" id="prev-arrow" aria-label="Previous drawing">&lsaquo;</button>
+          <button class="nav-arrow next-arrow" id="next-arrow" aria-label="Next drawing">&rsaquo;</button>
+        </div>
+        
+        <div class="lightbox-info">
+          <div class="lightbox-header">
+            <span class="post-date" id="lightbox-date"></span>
+            <div class="post-metrics">
+              <span class="metric likes-metric">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span id="lightbox-likes">0</span>
+              </span>
+              <span class="metric reposts-metric">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/>
+                </svg>
+                <span id="lightbox-reposts">0</span>
+              </span>
+            </div>
+          </div>
+          
+          <div class="lightbox-desc">
+            <h4 class="info-label">Caption Text</h4>
+            <p id="lightbox-caption" class="caption-text"></p>
+            
+            <div id="lightbox-gemini-desc-box" class="gemini-desc-box hidden">
+              <h4 class="info-label">Doodle Context</h4>
+              <p id="lightbox-gemini-desc" class="gemini-desc-text"></p>
+            </div>
+          </div>
+          
+          <div class="lightbox-metadata">
+            <div class="meta-item" id="lightbox-players-item">
+              <span class="meta-label">Player(s)</span>
+              <div class="meta-tags" id="lightbox-players"></div>
+            </div>
+            <div class="meta-item" id="lightbox-teams-item">
+              <span class="meta-label">Team(s)</span>
+              <div class="meta-tags" id="lightbox-teams"></div>
+            </div>
+            <div class="meta-item" id="lightbox-countries-item">
+              <span class="meta-label">Country</span>
+              <div class="meta-tags" id="lightbox-countries"></div>
+            </div>
+            <div class="meta-item" id="lightbox-counties-item">
+              <span class="meta-label">County</span>
+              <div class="meta-tags" id="lightbox-counties"></div>
+            </div>
+          </div>
+          
+          <div class="lightbox-actions">
+            <a id="lightbox-bsky-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">
+              <svg class="bsky-icon" viewBox="0 0 64 57" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944-7.111-7.32-3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825-18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z" fill="currentColor"/>
+              </svg>
+              View original post on Bluesky
+            </a>
+            <a href="https://noscoredraws.com/collections/all" target="_blank" rel="noopener noreferrer" class="btn btn-merch btn-block">
+              <svg class="merch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1.15rem; height: 1.15rem; fill: none;">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              Buy this drawing on Merch!
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="app-footer">
+    <p>Wonky doodles by <a href="https://bsky.app/profile/noscoredraws.com" target="_blank" rel="noopener noreferrer">@noscoredraws.com</a></p>
+    <p class="copyright">&copy; 2026 World Cup Art Indexer. Powered by Bluesky.</p>
+  </footer>
+</body>
+</html>
+
+<style is:global>
+  /* CSS Variables */
+  :root {
+    --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --primary-gradient: linear-gradient(135deg, #006aff 0%, #10b981 100%);
+    --accent-color: #006aff;
+    --accent-hover: #0056d6;
+  }
+
+  .dark-theme {
+    --bg-color: #0d121f;
+    --text-color: #f3f4f6;
+    --text-muted: #9ca3af;
+    --card-bg: rgba(23, 32, 51, 0.65);
+    --header-bg: rgba(13, 18, 31, 0.85);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --glow-color-1: rgba(0, 106, 255, 0.15);
+    --glow-color-2: rgba(16, 185, 129, 0.15);
+    --skeleton-base: #1e293b;
+    --skeleton-highlight: #334155;
+    --tag-bg: rgba(255, 255, 255, 0.08);
+    --tag-color: #e2e8f0;
+  }
+
+  .light-theme {
+    --bg-color: #f8fafc;
+    --text-color: #0f172a;
+    --text-muted: #475569;
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --header-bg: rgba(248, 250, 252, 0.85);
+    --border-color: rgba(15, 23, 42, 0.08);
+    --input-bg: rgba(15, 23, 42, 0.03);
+    --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.06);
+    --glow-color-1: rgba(0, 106, 255, 0.05);
+    --glow-color-2: rgba(16, 185, 129, 0.05);
+    --skeleton-base: #e2e8f0;
+    --skeleton-highlight: #cbd5e1;
+    --tag-bg: rgba(15, 23, 42, 0.05);
+    --tag-color: #1e293b;
+  }
+
+  /* Reset & Layout */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Glows */
+  .glow { position: fixed; border-radius: 50%; filter: blur(120px); z-index: -1; pointer-events: none; transition: all 0.4s ease; }
+  .glow-1 { width: 40vw; height: 40vw; top: -10vw; left: -10vw; background-color: var(--glow-color-1); }
+  .glow-2 { width: 40vw; height: 40vw; bottom: -10vw; right: -10vw; background-color: var(--glow-color-2); }
+  .glow-3 { width: 30vw; height: 30vw; top: 30vh; left: 40vw; background-color: rgba(124, 58, 237, 0.08); }
+
+  h1, h2, h3, h4, .logo-emoji { font-family: var(--font-display); }
+
+  /* Header */
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 2rem;
+  }
+  .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 0.75rem; }
+  .logo-emoji { font-size: 2.25rem; }
+  .brand-text h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-text .subtitle { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; }
+  .header-controls { display: flex; align-items: center; gap: 1rem; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 600; font-size: 0.9rem; padding: 0.6rem 1.2rem; border-radius: 9999px; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; }
+  .btn-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 15px rgba(0, 106, 255, 0.25); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 106, 255, 0.4); }
+  .btn-secondary { background-color: var(--tag-bg); color: var(--text-color); border: 1px solid var(--border-color); }
+  .btn-secondary:hover { background-color: var(--border-color); transform: translateY(-1px); }
+  .btn-icon { background-color: var(--tag-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 2.5rem; height: 2.5rem; padding: 0; border-radius: 50%; }
+  .btn-icon:hover { background-color: var(--border-color); transform: scale(1.05); }
+  .btn-icon svg { width: 1.25rem; height: 1.25rem; }
+
+  .sun-icon { display: none; }
+  .moon-icon { display: block; }
+  .light-theme .sun-icon { display: block; }
+  .light-theme .moon-icon { display: none; }
+  .bsky-icon { width: 1.15rem; height: 1.15rem; }
+
+  /* Layout */
+  .app-content { flex: 1; max-width: 1400px; width: 100%; margin: 0 auto; padding: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+  .controls-section { background-color: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-color); border-radius: 20px; padding: 1.5rem; box-shadow: var(--shadow-main); display: flex; flex-direction: column; gap: 1.25rem; }
+
+  /* Search & Filters */
+  .search-box { display: flex; align-items: center; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.75rem 1.25rem; position: relative; transition: all 0.3s ease; }
+  .search-box:focus-within { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(0, 106, 255, 0.15); }
+  .search-icon { width: 1.25rem; height: 1.25rem; color: var(--text-muted); margin-right: 0.75rem; }
+  .search-box input { background: transparent; border: none; color: var(--text-color); font-size: 1rem; width: 100%; outline: none; }
+  .clear-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; padding: 0 0.5rem; display: none; align-items: center; justify-content: center; }
+
+  .filters-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .filter-group { flex: 1 1 200px; display: flex; flex-direction: column; gap: 0.5rem; }
+  .filter-group label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+  .select-wrapper { position: relative; width: 100%; }
+  .select-wrapper::after { content: '▼'; font-size: 0.7rem; color: var(--text-muted); position: absolute; right: 1.25rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+  .filter-group select { width: 100%; appearance: none; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.75rem 1.25rem; color: var(--text-color); font-size: 0.95rem; font-weight: 500; outline: none; cursor: pointer; }
+
+  /* Active tags */
+  .active-tags-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .active-tag { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; background-color: var(--tag-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 0.35rem 0.75rem; border-radius: 9999px; }
+  .active-tag:hover { background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #ef4444; cursor: pointer; }
+  .active-tag-remove { font-size: 1rem; line-height: 1; }
+
+  .stats-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem; }
+  .stats-text { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+
+  /* Grid & Cards */
+  .art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; min-height: 400px; }
+  .art-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-main); display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; }
+  .art-card:hover { transform: translateY(-8px); border-color: rgba(0, 106, 255, 0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 0 20px rgba(0, 106, 255, 0.15); }
+  .art-image-container { width: 100%; position: relative; overflow: hidden; background-color: rgba(0,0,0,0.1); }
+  .art-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+  .art-card:hover .art-card-img { transform: scale(1.05); }
+
+  .art-card-info { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; gap: 0.75rem; }
+  .art-card-header { display: flex; justify-content: space-between; align-items: center; }
+  .card-date { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+  .card-likes { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+  .card-likes svg { width: 0.85rem; height: 0.85rem; fill: currentColor; }
+  .art-card:hover .card-likes { color: #ef4444; }
+
+  .card-caption { font-size: 0.9rem; line-height: 1.5; color: var(--text-color); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+  .card-tag { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; background-color: var(--tag-bg); color: var(--tag-color); }
+  .card-tag.country-tag { background-color: rgba(0, 106, 255, 0.1); color: #006aff; border: 1px solid rgba(0, 106, 255, 0.15); }
+  .card-tag.county-tag { background-color: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.15); }
+
+  /* Empty state & skeletons */
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background-color: var(--card-bg); border: 1px dashed var(--border-color); border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  .empty-state.hidden { display: none; }
+  .empty-emoji { font-size: 4rem; }
+  .empty-state p { color: var(--text-muted); max-width: 400px; line-height: 1.5; }
+
+  .loading-skeleton { background-color: var(--skeleton-base); border-radius: 16px; height: 420px; position: relative; overflow: hidden; }
+  .loading-skeleton::after { content: ''; display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--skeleton-highlight), transparent); transform: translateX(-100%); animation: loading-animation 1.5s infinite; }
+  @keyframes loading-animation { 100% { transform: translateX(100%); } }
+
+  /* Lightbox Dialog */
+  .lightbox-modal { border: none; background: transparent; width: 100%; height: 100%; max-width: 100%; max-height: 100%; padding: 0; overflow: hidden; }
+  .lightbox-modal::backdrop { background-color: rgba(13, 18, 31, 0.85); backdrop-filter: blur(8px); }
+  .lightbox-container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; padding: 2rem; }
+  .lightbox-close { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); color: white; width: 3rem; height: 3rem; border-radius: 50%; font-size: 1.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: all 0.3s ease; }
+  .lightbox-close:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+  .lightbox-content { background-color: var(--bg-color); border: 1px solid var(--border-color); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border-radius: 24px; width: 100%; max-width: 1100px; height: 85vh; display: flex; overflow: hidden; position: relative; }
+  .lightbox-media-container { flex: 1.2; background-color: rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; position: relative; height: 100%; }
+  .lightbox-img { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 8px; }
+
+  .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.1); color: white; font-size: 2.5rem; width: 3.5rem; height: 3.5rem; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+  .nav-arrow:hover { background: rgba(0, 106, 255, 0.6); border-color: rgba(0, 106, 255, 0.8); }
+  .prev-arrow { left: 1rem; }
+  .next-arrow { right: 1rem; }
+
+  .lightbox-info { flex: 0.8; padding: 2rem; display: flex; flex-direction: column; border-left: 1px solid var(--border-color); overflow-y: auto; gap: 1.5rem; }
+  .lightbox-header { display: flex; justify-content: space-between; align-items: center; }
+  .post-date { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+  .post-metrics { display: flex; gap: 1rem; }
+  .metric { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+  .metric svg { width: 1rem; height: 1rem; }
+  .likes-metric svg { color: #ef4444; }
+  .reposts-metric svg { color: #006aff; }
+
+  .info-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .caption-text { font-size: 1rem; line-height: 1.6; color: var(--text-color); }
+  .gemini-desc-box { background-color: var(--input-bg); border-left: 3px solid var(--accent-color); padding: 1rem; border-radius: 0 8px 8px 0; margin-top: 1rem; }
+  .gemini-desc-text { font-size: 0.95rem; line-height: 1.5; color: var(--text-color); font-style: italic; }
+  .gemini-desc-box.hidden { display: none; }
+
+  .lightbox-metadata { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.35rem; }
+  .meta-item.hidden { display: none; }
+  .meta-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+  .meta-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .meta-tag { font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 6px; background-color: var(--tag-bg); color: var(--text-color); border: 1px solid var(--border-color); }
+  .meta-tag.country { background-color: rgba(0, 106, 255, 0.08); color: #006aff; border-color: rgba(0, 106, 255, 0.15); }
+  .meta-tag.county { background-color: rgba(16, 185, 129, 0.08); color: #10b981; border-color: rgba(16, 185, 129, 0.15); }
+  .lightbox-actions { margin-top: 1rem; }
+  .btn-block { width: 100%; }
+  .btn-merch {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+    margin-top: 0.75rem;
+  }
+  .btn-merch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  }
+  .btn-merch:active {
+    transform: translateY(0);
+  }
+
+  /* Footer */
+  .app-footer { text-align: center; padding: 2.5rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+  .app-footer p { font-size: 0.9rem; color: var(--text-muted); }
+  .app-footer a { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+  .app-footer a:hover { text-decoration: underline; }
+  .app-footer .copyright { font-size: 0.75rem; }
+
+  /* Responsive styles */
+  @media (max-width: 900px) {
+    .lightbox-content { flex-direction: column; height: 90vh; }
+    .lightbox-media-container { flex: 1; height: 50%; }
+    .lightbox-info { flex: 1; border-left: none; border-top: 1px solid var(--border-color); height: 50%; }
+    .nav-arrow { width: 3rem; height: 3rem; font-size: 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .logo-emoji { font-size: 1.75rem; }
+    .brand-text h1 { font-size: 1.2rem; }
+    .header-controls .profile-link { font-size: 0; width: 2.5rem; height: 2.5rem; padding: 0; border-radius: 50%; }
+    .app-content { padding: 1rem; }
+    .controls-section { padding: 1rem; }
+    .filters-row { flex-direction: column; }
+    .filter-group { flex: 1 1 auto; }
+  }
+</style>
+
+<script>
+  // Global State for page interactivity
+  let artGalleryData = [];
+  let filteredData = [];
+  let currentLightboxIndex = -1;
+
+  const state = {
+    search: '',
+    country: '',
+    county: '',
+    sortBy: 'date-desc'
+  };
+
+  // DOM elements binding
+  let DOM = {};
+
+  function initDOM() {
+    DOM = {
+      body: document.body,
+      themeToggle: document.getElementById('theme-toggle'),
+      searchInput: document.getElementById('search-input'),
+      clearSearch: document.getElementById('clear-search'),
+      countryFilter: document.getElementById('country-filter'),
+      countyFilter: document.getElementById('county-filter'),
+      sortSelect: document.getElementById('sort-select'),
+      activeTagsContainer: document.getElementById('active-tags-container'),
+      statsDisplay: document.getElementById('stats-display'),
+      artGrid: document.getElementById('art-grid'),
+      emptyState: document.getElementById('empty-state'),
+      resetFiltersBtn: document.getElementById('reset-filters-btn'),
+      
+      // Lightbox
+      lightbox: document.getElementById('lightbox-modal'),
+      lightboxClose: document.getElementById('lightbox-close'),
+      lightboxImg: document.getElementById('lightbox-img'),
+      lightboxCaption: document.getElementById('lightbox-caption'),
+      lightboxDate: document.getElementById('lightbox-date'),
+      lightboxLikes: document.getElementById('lightbox-likes'),
+      lightboxReposts: document.getElementById('lightbox-reposts'),
+      lightboxBskyBtn: document.getElementById('lightbox-bsky-btn'),
+      lightboxPlayers: document.getElementById('lightbox-players'),
+      lightboxTeams: document.getElementById('lightbox-teams'),
+      lightboxCountries: document.getElementById('lightbox-countries'),
+      lightboxCounties: document.getElementById('lightbox-counties'),
+      lightboxGeminiDescBox: document.getElementById('lightbox-gemini-desc-box'),
+      lightboxGeminiDesc: document.getElementById('lightbox-gemini-desc'),
+      prevArrow: document.getElementById('prev-arrow'),
+      nextArrow: document.getElementById('next-arrow')
+    };
+  }
+
+  // Setup Lifecycle in Astro (Astro bundles this script and runs it in the browser)
+  if (typeof window !== 'undefined') {
+    initDOM();
+    setupTheme();
+    setupEventListeners();
+    loadGalleryData();
+  }
+
+  function setupTheme() {
+    const savedTheme = localStorage.getItem('nsd-theme') || 'dark-theme';
+    DOM.body.className = savedTheme;
+  }
+
+  function setupEventListeners() {
+    DOM.themeToggle.addEventListener('click', () => {
+      if (DOM.body.classList.contains('dark-theme')) {
+        DOM.body.classList.replace('dark-theme', 'light-theme');
+        localStorage.setItem('nsd-theme', 'light-theme');
+      } else {
+        DOM.body.classList.replace('light-theme', 'dark-theme');
+        localStorage.setItem('nsd-theme', 'dark-theme');
+      }
+    });
+
+    DOM.searchInput.addEventListener('input', (e) => {
+      state.search = e.target.value.trim().toLowerCase();
+      DOM.clearSearch.style.display = state.search ? 'flex' : 'none';
+      applyFilters();
+    });
+    
+    DOM.clearSearch.addEventListener('click', () => {
+      DOM.searchInput.value = '';
+      state.search = '';
+      DOM.clearSearch.style.display = 'none';
+      DOM.searchInput.focus();
+      applyFilters();
+    });
+
+    DOM.countryFilter.addEventListener('change', (e) => {
+      state.country = e.target.value;
+      applyFilters();
+    });
+
+    DOM.countyFilter.addEventListener('change', (e) => {
+      state.county = e.target.value;
+      applyFilters();
+    });
+
+    DOM.sortSelect.addEventListener('change', (e) => {
+      state.sortBy = e.target.value;
+      applyFilters();
+    });
+
+    DOM.resetFiltersBtn.addEventListener('click', resetAllFilters);
+    DOM.lightboxClose.addEventListener('click', () => DOM.lightbox.close());
+    DOM.lightbox.addEventListener('click', (e) => {
+      if (e.target === DOM.lightbox) DOM.lightbox.close();
+    });
+
+    DOM.prevArrow.addEventListener('click', showPrevImage);
+    DOM.nextArrow.addEventListener('click', showNextImage);
+
+    document.addEventListener('keydown', (e) => {
+      if (!DOM.lightbox.open) return;
+      if (e.key === 'ArrowLeft') showPrevImage();
+      else if (e.key === 'ArrowRight') showNextImage();
+    });
+  }
+
+  async function loadGalleryData() {
+    try {
+      // Fetches JSON from local server path /blog/doodles/art_index.json
+      const response = await fetch('/blog/doodles/art_index.json');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      artGalleryData = await response.json();
+      
+      populateFilterDropdowns();
+      applyFilters();
+    } catch (error) {
+      console.error('Error loading gallery data:', error);
+      DOM.statsDisplay.innerText = 'Error loading gallery data.';
+      DOM.artGrid.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-emoji">⚠️</div>
+          <h3>Failed to Load Index</h3>
+          <p>Could not fetch /blog/doodles/art_index.json. Check that the file is in your public/doodles/ directory.</p>
+        </div>
+      `;
+    }
+  }
+
+  function populateFilterDropdowns() {
+    const countriesSet = new Set();
+    const countiesSet = new Set();
+    
+    artGalleryData.forEach(item => {
+      if (item.countries) item.countries.forEach(c => countriesSet.add(c));
+      if (item.counties) item.counties.forEach(co => countiesSet.add(co));
+    });
+    
+    Array.from(countriesSet).sort().forEach(country => {
+      const opt = document.createElement('option');
+      opt.value = country;
+      opt.textContent = country;
+      DOM.countryFilter.appendChild(opt);
+    });
+    
+    Array.from(countiesSet).sort().forEach(county => {
+      const opt = document.createElement('option');
+      opt.value = county;
+      opt.textContent = county;
+      DOM.countyFilter.appendChild(opt);
+    });
+  }
+
+  function applyFilters() {
+    filteredData = artGalleryData.filter(item => {
+      const matchesSearch = !state.search || 
+        (item.text && item.text.toLowerCase().includes(state.search)) ||
+        (item.description && item.description.toLowerCase().includes(state.search)) ||
+        (item.players && item.players.some(p => p.toLowerCase().includes(state.search))) ||
+        (item.teams && item.teams.some(t => t.toLowerCase().includes(state.search))) ||
+        (item.countries && item.countries.some(c => c.toLowerCase().includes(state.search))) ||
+        (item.counties && item.counties.some(co => co.toLowerCase().includes(state.search)));
+        
+      const matchesCountry = !state.country || (item.countries && item.countries.includes(state.country));
+      const matchesCounty = !state.county || (item.counties && item.counties.includes(state.county));
+        
+      return matchesSearch && matchesCountry && matchesCounty;
+    });
+    
+    sortData();
+    renderActiveTags();
+    renderStatsBar();
+    renderGrid();
+  }
+
+  function sortData() {
+    if (state.sortBy === 'date-desc') {
+      filteredData.sort((a, b) => new Date(b.indexedAt) - new Date(a.indexedAt));
+    } else if (state.sortBy === 'date-asc') {
+      filteredData.sort((a, b) => new Date(a.indexedAt) - new Date(b.indexedAt));
+    } else if (state.sortBy === 'likes-desc') {
+      filteredData.sort((a, b) => b.likes - a.likes);
+    } else if (state.sortBy === 'reposts-desc') {
+      filteredData.sort((a, b) => b.reposts - a.reposts);
+    }
+  }
+
+  function renderActiveTags() {
+    DOM.activeTagsContainer.innerHTML = '';
+    
+    if (state.search) {
+      createActiveTag(`Search: "${state.search}"`, () => {
+        DOM.searchInput.value = '';
+        state.search = '';
+        DOM.clearSearch.style.display = 'none';
+        applyFilters();
+      });
+    }
+    
+    if (state.country) {
+      createActiveTag(`Country: ${state.country}`, () => {
+        DOM.countryFilter.value = '';
+        state.country = '';
+        applyFilters();
+      });
+    }
+    
+    if (state.county) {
+      createActiveTag(`County: ${state.county}`, () => {
+        DOM.countyFilter.value = '';
+        state.county = '';
+        applyFilters();
+      });
+    }
+  }
+
+  function createActiveTag(text, onRemove) {
+    const tag = document.createElement('div');
+    tag.className = 'active-tag';
+    tag.innerHTML = `<span>${text}</span><span class="active-tag-remove">&times;</span>`;
+    tag.addEventListener('click', onRemove);
+    DOM.activeTagsContainer.appendChild(tag);
+  }
+
+  function renderStatsBar() {
+    const total = artGalleryData.length;
+    const showing = filteredData.length;
+    DOM.statsDisplay.innerText = showing === total ? `Showing all ${total} doodles` : `Showing ${showing} of ${total} doodles`;
+  }
+
+  function resetAllFilters() {
+    DOM.searchInput.value = '';
+    state.search = '';
+    DOM.clearSearch.style.display = 'none';
+    DOM.countryFilter.value = '';
+    state.country = '';
+    DOM.countyFilter.value = '';
+    state.county = '';
+    DOM.sortSelect.value = 'date-desc';
+    state.sortBy = 'date-desc';
+    applyFilters();
+  }
+
+  function renderGrid() {
+    DOM.artGrid.innerHTML = '';
+    
+    if (filteredData.length === 0) {
+      DOM.emptyState.classList.remove('hidden');
+      return;
+    }
+    DOM.emptyState.classList.add('hidden');
+    
+    filteredData.forEach((item, index) => {
+      const card = document.createElement('article');
+      card.className = 'art-card';
+      card.addEventListener('click', () => openLightbox(index));
+      
+      const imageUrl = item.image_urls && item.image_urls.length > 0 ? item.image_urls[0] : '';
+      const aspect = item.aspect_ratios && item.aspect_ratios.length > 0 ? item.aspect_ratios[0] : { width: 4, height: 5 };
+      const percentage = (aspect.height / aspect.width) * 100;
+      
+      const formattedDate = formatDateString(item.indexedAt);
+      const displayCaption = item.text || 'No Score Draws doodle';
+      
+      let tagsHtml = '';
+      if (item.countries) {
+        item.countries.slice(0, 2).forEach(c => {
+          tagsHtml += `<span class="card-tag country-tag">${c}</span>`;
+        });
+      }
+      if (item.counties) {
+        item.counties.slice(0, 2).forEach(co => {
+          tagsHtml += `<span class="card-tag county-tag">${co}</span>`;
+        });
+      }
+      if (item.players) {
+        item.players.slice(0, 1).forEach(p => {
+          tagsHtml += `<span class="card-tag">${p}</span>`;
+        });
+      }
+      
+      card.innerHTML = `
+        <div class="art-image-container" style="padding-top: ${percentage}%;">
+          <img class="art-card-img" src="${imageUrl}" alt="Wonky doodle" loading="lazy" style="position: absolute; top:0; left:0; width:100%; height:100%;" />
+        </div>
+        <div class="art-card-info">
+          <div class="art-card-header">
+            <time class="card-date" datetime="${item.indexedAt}">${formattedDate}</time>
+            <span class="card-likes">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              ${item.likes}
+            </span>
+          </div>
+          <p class="card-caption">${displayCaption}</p>
+          <div class="card-tags">${tagsHtml}</div>
+        </div>
+      `;
+      DOM.artGrid.appendChild(card);
+    });
+  }
+
+  function openLightbox(index) {
+    currentLightboxIndex = index;
+    updateLightboxContent();
+    DOM.lightbox.showModal();
+  }
+
+  function updateLightboxContent() {
+    if (currentLightboxIndex < 0 || currentLightboxIndex >= filteredData.length) return;
+    const item = filteredData[currentLightboxIndex];
+    
+    DOM.lightboxImg.src = item.image_urls && item.image_urls.length > 0 ? item.image_urls[0] : '';
+    DOM.lightboxImg.alt = item.text || 'Doodle illustration';
+    DOM.lightboxDate.innerText = formatDateString(item.indexedAt);
+    DOM.lightboxLikes.innerText = item.likes;
+    DOM.lightboxReposts.innerText = item.reposts;
+    DOM.lightboxCaption.innerText = item.text || '';
+    DOM.lightboxBskyBtn.href = item.web_url || '#';
+    
+    if (item.status === 'gemini_classified' && item.description) {
+      DOM.lightboxGeminiDescBox.classList.remove('hidden');
+      DOM.lightboxGeminiDesc.innerText = item.description;
+    } else {
+      DOM.lightboxGeminiDescBox.classList.add('hidden');
+    }
+    
+    renderMetadataTags(DOM.lightboxPlayers, 'lightbox-players-item', item.players);
+    renderMetadataTags(DOM.lightboxTeams, 'lightbox-teams-item', item.teams);
+    renderMetadataTags(DOM.lightboxCountries, 'lightbox-countries-item', item.countries, 'country');
+    renderMetadataTags(DOM.lightboxCounties, 'lightbox-counties-item', item.counties, 'county');
+  }
+
+  // Tags rendering helper
+  function renderMetadataTags(container, parentId, tagList, extraClass = '') {
+    const parent = document.getElementById(parentId);
+    container.innerHTML = '';
+    if (tagList && tagList.length > 0) {
+      parent.classList.remove('hidden');
+      tagList.forEach(text => {
+        const tag = document.createElement('span');
+        tag.className = `meta-tag ${extraClass}`;
+        tag.textContent = text;
+        container.appendChild(tag);
+      });
+    } else {
+      parent.classList.add('hidden');
+    }
+  }
+
+  function showPrevImage() {
+    if (filteredData.length <= 1) return;
+    currentLightboxIndex = (currentLightboxIndex - 1 + filteredData.length) % filteredData.length;
+    updateLightboxContent();
+  }
+
+  // Arrow navigation
+  function showNextImage() {
+    if (filteredData.length <= 1) return;
+    currentLightboxIndex = (currentLightboxIndex + 1) % filteredData.length;
+    updateLightboxContent();
+  }
+
+  function formatDateString(isoString) {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
+  }
+</script>

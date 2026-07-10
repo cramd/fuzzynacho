@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dir.fuzzynacho.org - Ecosystem & Projects</title>
+    <!-- Tailwind CSS v4 via CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style>
+        /* Custom base styles for deep dark theme */
+        body {
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        
+        /* Card hover animation */
+        .app-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Blinking green dot for "Online" status */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        .status-dot {
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Header / Hero Section -->
+    <header class="w-full max-w-6xl mx-auto px-6 pt-20 pb-12 flex flex-col items-center text-center">
+        <div class="inline-flex items-center justify-center p-3 mb-6 bg-slate-800/50 rounded-2xl border border-slate-700/50 shadow-lg backdrop-blur-sm">
+            <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+            </svg>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-500 bg-clip-text text-transparent mb-4">
+            dir.fuzzynacho.org
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl font-light">
+            Self-Hosted Ecosystem &amp; Projects
+        </p>
+    </header>
+
+    <!-- Main App Grid -->
+    <main class="flex-grow w-full max-w-6xl mx-auto px-6 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1: HuntMode -->
+            <a href="https://www.fuzzynacho.org" class="app-card flex flex-col relative bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:border-emerald-500/50 hover:bg-slate-800/60 group overflow-hidden">
+                <div class="w-full h-40 bg-slate-900 border-b border-slate-700/50 overflow-hidden relative">
+                    <img src="assets/huntmode.png" alt="HuntMode UI" class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">HuntMode</h2>
+                        <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-medium text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        The flagship application for tracking and optimization.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-cyan-900/30 text-cyan-400 rounded-md border border-cyan-800/50">Core App</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-violet-900/30 text-violet-400 rounded-md border border-violet-800/50">Production</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 2: LegoShelf -->
+            <a href="https://lego.fuzzynacho.org" class="app-card flex flex-col relative bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:border-emerald-500/50 hover:bg-slate-800/60 group overflow-hidden">
+                <div class="w-full h-40 bg-slate-900 border-b border-slate-700/50 overflow-hidden relative">
+                    <img src="assets/lego.png" alt="LegoShelf UI" class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">LegoShelf</h2>
+                        <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-medium text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        A custom tracking application and visual inventory for my LEGO collection.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-emerald-900/30 text-emerald-400 rounded-md border border-emerald-800/50">Rebrickable API</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-md border border-slate-600/50">Collection Tools</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 3: Personal Portfolio -->
+            <a href="https://marc.honeos.ai/" class="app-card flex flex-col relative bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:border-emerald-500/50 hover:bg-slate-800/60 group overflow-hidden">
+                <div class="w-full h-40 bg-slate-900 border-b border-slate-700/50 overflow-hidden relative">
+                    <img src="assets/portfolio.png" alt="Personal Portfolio UI" class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Personal Portfolio</h2>
+                        <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-medium text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        Professional portfolio, consulting focus, and technical go-to-market strategy.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-cyan-900/30 text-cyan-400 rounded-md border border-cyan-800/50">Portfolio</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-violet-900/30 text-violet-400 rounded-md border border-violet-800/50">Bio</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-fuchsia-900/30 text-fuchsia-400 rounded-md border border-fuchsia-800/50">HoneOSS</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 4: Social Battery Meter -->
+            <a href="https://battery.fuzzynacho.org" class="app-card flex flex-col relative bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:border-emerald-500/50 hover:bg-slate-800/60 group overflow-hidden">
+                <div class="w-full h-40 bg-slate-900 border-b border-slate-700/50 overflow-hidden relative">
+                    <img src="assets/battery.png" alt="Social Battery Meter UI" class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Social Battery Meter</h2>
+                        <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-medium text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        A quick-glance visual meter tracking daily social energy levels.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-orange-900/30 text-orange-400 rounded-md border border-orange-800/50">Utility</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-blue-900/30 text-blue-400 rounded-md border border-blue-800/50">Frontend</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-md border border-slate-600/50">Personal</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 5: BdayLoot (WIFOMB) -->
+            <a href="https://wifomb.fuzzynacho.org" class="app-card flex flex-col relative bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:border-emerald-500/50 hover:bg-slate-800/60 group overflow-hidden">
+                <div class="w-full h-40 bg-slate-900 border-b border-slate-700/50 overflow-hidden relative">
+                    <img src="assets/wifomb.png" alt="BdayLoot UI" class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">BdayLoot (WIFOMB)</h2>
+                        <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-medium text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        A product-led growth app for tracking birthday rewards and loot.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-pink-900/30 text-pink-400 rounded-md border border-pink-800/50">BdayLoot</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-cyan-900/30 text-cyan-400 rounded-md border border-cyan-800/50">Web App</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-emerald-900/30 text-emerald-400 rounded-md border border-emerald-800/50">PLG</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 6: Part Sensei -->
+            <a href="https://partsensei.com" class="app-card flex flex-col relative bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:border-emerald-500/50 hover:bg-slate-800/60 group overflow-hidden">
+                <div class="w-full h-40 bg-slate-900 border-b border-slate-700/50 overflow-hidden relative">
+                    <img src="assets/partsensei.jpg" alt="Part Sensei UI" class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Part Sensei</h2>
+                        <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-medium text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        The way a ninja would find their PC parts. Stealthy, fast, and optimized hardware searching.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 text-xs font-medium bg-red-900/30 text-red-400 rounded-md border border-red-800/50">Hardware Search</span>
+                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-md border border-slate-600/50">PC Building</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full mt-auto py-8 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500">
+            <p>&copy; <span id="year"></span> dir.fuzzynacho.org. All rights reserved.</p>
+            <div class="flex items-center gap-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-slate-300 transition-colors">GitHub</a>
+                <a href="#" class="hover:text-slate-300 transition-colors">LinkedIn</a>
+                <a href="#" class="hover:text-slate-300 transition-colors">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Minimal JS for dynamically updating the year -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

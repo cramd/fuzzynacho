@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import Comments from '../components/Comments.astro';
+import Layout from '../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout frontmatter={{
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate,
+  author: post.data.author,
+  tags: post.data.tags,
+  coverImage: post.data.coverImage,
+  seoTitle: post.data.seoTitle,
+  seoDescription: post.data.seoDescription,
+  socialImage: post.data.socialImage,
+  coverImageAlt: post.data.coverImageAlt,
+  featured: post.data.featured,
+}}>
+  <Content />
+  <Comments slot="after-article" />
+</Layout>

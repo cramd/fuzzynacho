@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const recentPosts = allPosts.slice(0, 3);
+---
+
+<aside class="space-y-8">
+    <!-- Author Card -->
+    <div class="bg-white dark:bg-zinc-800 p-6 rounded-2xl border border-stone-200 dark:border-zinc-700/50 shadow-sm">
+        <div class="flex items-center space-x-4">
+            <div class="w-14 h-14 rounded-full bg-amber-500 flex items-center justify-center font-extrabold text-white text-xl shadow-inner">
+                FN
+            </div>
+            <div>
+                <h3 class="font-bold text-stone-900 dark:text-zinc-50 text-lg">FuzzyNacho</h3>
+                <p class="text-xs text-stone-500 dark:text-zinc-400">fuzzynacho.org • Unfiltered Tech & Society</p>
+            </div>
+        </div>
+        <p class="mt-4 text-sm text-stone-600 dark:text-zinc-400 leading-relaxed">
+            Analyzing macrotrends, institutional collapse, and tech ecosystems without the corporate sugarcoating. 
+        </p>
+        <div class="mt-4 pt-4 border-t border-stone-100 dark:border-zinc-700/50 flex justify-between items-center text-xs text-stone-500">
+            <span>📍 Richmond, BC, Canada</span>
+            <a href="https://www.fuzzynacho.org" class="text-amber-600 dark:text-amber-400 hover:underline">Read Bio →</a>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE TOOL: Gerontocracy Decay Calculator -->
+    <div class="bg-stone-900 text-stone-100 p-6 rounded-2xl border border-zinc-800 shadow-xl space-y-6" id="interactive">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl">🧠</span>
+            <div>
+                <h4 class="font-bold text-amber-400 text-sm tracking-wide uppercase">Interactive Tool</h4>
+                <h3 class="font-extrabold text-lg text-white">Systemic Decay Calculator</h3>
+            </div>
+        </div>
+        
+        <p class="text-xs text-zinc-400 leading-relaxed">
+            Adjust the metrics below to simulate the "Cognitive Misfire Probability" and institutional stability of a hypothetical empire.
+        </p>
+
+        <!-- SLIDER 1: Average Age -->
+        <div class="space-y-2">
+            <div class="flex justify-between text-xs font-semibold">
+                <span class="text-zinc-300">Average Age of Leadership:</span>
+                <span class="text-amber-400" id="ageVal">78 years</span>
+            </div>
+            <input type="range" id="ageInput" min="40" max="90" value="78" class="w-full accent-amber-500 bg-zinc-700 rounded-lg appearance-none h-2 cursor-pointer">
+        </div>
+
+        <!-- SLIDER 2: Average Tenure -->
+        <div class="space-y-2">
+            <div class="flex justify-between text-xs font-semibold">
+                <span class="text-zinc-300">Avg. Congressional Term Length:</span>
+                <span class="text-amber-400" id="tenureVal">28 years</span>
+            </div>
+            <input type="range" id="tenureInput" min="2" max="45" value="28" class="w-full accent-amber-500 bg-zinc-700 rounded-lg appearance-none h-2 cursor-pointer">
+        </div>
+
+        <!-- TOGGLE: Lobbyist Funding integration -->
+        <div class="flex items-center justify-between pt-2">
+            <span class="text-xs font-semibold text-zinc-300">Deep Special Interest Plaque:</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="lobbyistCheck" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+            </label>
+        </div>
+
+        <!-- CALCULATED DECAY RATING CONTAINER -->
+        <div class="p-4 bg-zinc-800/80 rounded-xl border border-zinc-700/50 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-mono uppercase tracking-wider text-zinc-400">Empire Decay Score:</span>
+                <span class="text-xl font-black text-red-500" id="scoreBadge">94 / 100</span>
+            </div>
+            <!-- ProgressBar -->
+            <div class="w-full bg-zinc-700 rounded-full h-2.5 overflow-hidden">
+                <div id="progressBar" class="bg-gradient-to-r from-amber-500 to-red-600 h-2.5 transition-all duration-300" style="width: 94%"></div>
+            </div>
+            <!-- Short Verdict -->
+            <p class="text-xs italic text-zinc-300 mt-2 leading-relaxed" id="verdictText">
+                "Severe Executive Dysfunction. The stove is currently on fire. Immediate term-limit intervention recommended."
+            </p>
+        </div>
+    </div>
+
+    <!-- Related Posts Widget -->
+    <div class="bg-white dark:bg-zinc-800 p-6 rounded-2xl border border-stone-200 dark:border-zinc-700/50 shadow-sm space-y-4">
+        <h3 class="font-bold text-stone-400 dark:text-zinc-500 text-xs uppercase tracking-wider">Other Essays from FuzzyNacho</h3>
+        <div class="space-y-3">
+            {recentPosts.map((post, idx) => (
+                <>
+                    <a href={`/blog/${post.id}`} class="block group">
+                        <span class="text-[10px] text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider">
+                            {post.data.tags.length > 0 ? post.data.tags[0] : "Perspective"}
+                        </span>
+                        <h4 class="font-bold text-stone-800 dark:text-zinc-200 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition text-sm leading-snug mt-1">
+                            {post.data.title}
+                        </h4>
+                    </a>
+                    {idx < recentPosts.length - 1 && <hr class="border-stone-100 dark:border-zinc-700/40" />}
+                </>
+            ))}
+        </div>
+    </div>
+</aside>
+
+<script>
+    // Decay Calculator Logic
+    const ageInput = document.getElementById('ageInput') as HTMLInputElement | null;
+    const ageVal = document.getElementById('ageVal');
+    const tenureInput = document.getElementById('tenureInput') as HTMLInputElement | null;
+    const tenureVal = document.getElementById('tenureVal');
+    const lobbyistCheck = document.getElementById('lobbyistCheck') as HTMLInputElement | null;
+    
+    const scoreBadge = document.getElementById('scoreBadge');
+    const progressBar = document.getElementById('progressBar');
+    const verdictText = document.getElementById('verdictText');
+
+    function updateDecayScore() {
+        if (!ageInput || !tenureInput || !lobbyistCheck || !ageVal || !tenureVal || !scoreBadge || !progressBar || !verdictText) return;
+
+        const age = parseInt(ageInput.value);
+        const tenure = parseInt(tenureInput.value);
+        const lobbyistActive = lobbyistCheck.checked;
+
+        ageVal.textContent = `${age} years`;
+        tenureVal.textContent = `${tenure} years`;
+
+        // Score formula: Base mapping
+        // Age factor: 40 is 0 points, 90 is 45 points
+        const ageFactor = Math.max(0, (age - 40) * 0.9);
+        // Tenure factor: 2 is 0 points, 45 is 35 points
+        const tenureFactor = Math.max(0, (tenure - 2) * 0.81);
+        // Lobbyist multiplier
+        const lobbyistAdder = lobbyistActive ? 20 : 0;
+
+        let finalScore = Math.min(100, Math.round(ageFactor + tenureFactor + lobbyistAdder));
+        
+        scoreBadge.textContent = `${finalScore} / 100`;
+        progressBar.style.width = `${finalScore}%`;
+
+        // Verdict selection based on score
+        let verdict = "";
+        if (finalScore >= 85) {
+            verdict = '"Severe Executive Dysfunction. The stove is currently on fire. Immediate term-limit intervention recommended."';
+            scoreBadge.className = "text-xl font-black text-red-500 animate-pulse";
+        } else if (finalScore >= 60) {
+            verdict = '"Moderate Confusion. Forgets major domestic realities. Highly susceptible to compounding corruption plaque."';
+            scoreBadge.className = "text-xl font-black text-amber-500";
+        } else if (finalScore >= 35) {
+            verdict = '"Early Forgetfulness. Able to execute core budgets on time, but showing signs of systemic stubbornness."';
+            scoreBadge.className = "text-xl font-black text-yellow-500";
+        } else {
+            verdict = '"High Agility. Rapid response to public issues, clean vascular system with minimal lobbying obstruction."';
+            scoreBadge.className = "text-xl font-black text-emerald-500";
+        }
+        verdictText.textContent = verdict;
+    }
+
+    if (ageInput && tenureInput && lobbyistCheck) {
+        ageInput.addEventListener('input', updateDecayScore);
+        tenureInput.addEventListener('input', updateDecayScore);
+        lobbyistCheck.addEventListener('change', updateDecayScore);
+        
+        // Initial run
+        updateDecayScore();
+    }
+</script>

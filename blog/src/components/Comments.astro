@@ -1,0 +1,69 @@
+---
+const repo = import.meta.env.PUBLIC_GISCUS_REPO
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID
+
+const isConfigured = Boolean(repo && repoId && category && categoryId)
+---
+
+{isConfigured && (
+  <section class="not-prose mt-12 pt-8 border-t border-stone-200 dark:border-zinc-800">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-stone-400 dark:text-zinc-500 mb-2">
+      Comments
+    </h2>
+    <p class="text-xs text-stone-500 dark:text-zinc-500 mb-6">
+      Powered by GitHub Discussions. Sign in with GitHub to join the conversation.
+    </p>
+    <div class="giscus"></div>
+    <script
+      is:inline
+      define:vars={{ repo, repoId, category, categoryId }}
+    >
+      function getSiteTheme() {
+        const stored = localStorage.getItem('theme')
+        if (stored === 'dark') return 'dark'
+        if (stored === 'light') return 'light'
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      }
+
+      function sendGiscusTheme(theme) {
+        const iframe = document.querySelector('iframe.giscus-frame')
+        if (!iframe?.contentWindow) return
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme } } },
+          'https://giscus.app'
+        )
+      }
+
+      const giscusScript = document.createElement('script')
+      giscusScript.src = 'https://giscus.app/client.js'
+      giscusScript.setAttribute('data-repo', repo)
+      giscusScript.setAttribute('data-repo-id', repoId)
+      giscusScript.setAttribute('data-category', category)
+      giscusScript.setAttribute('data-category-id', categoryId)
+      giscusScript.setAttribute('data-mapping', 'pathname')
+      giscusScript.setAttribute('data-strict', '0')
+      giscusScript.setAttribute('data-reactions-enabled', '1')
+      giscusScript.setAttribute('data-emit-metadata', '0')
+      giscusScript.setAttribute('data-input-position', 'top')
+      giscusScript.setAttribute('data-theme', getSiteTheme())
+      giscusScript.setAttribute('data-lang', 'en')
+      giscusScript.crossOrigin = 'anonymous'
+      giscusScript.async = true
+      document.currentScript.parentElement.appendChild(giscusScript)
+
+      window.addEventListener('message', (event) => {
+        if (event.origin !== 'https://giscus.app') return
+        if (event.data.giscus?.discussion) {
+          sendGiscusTheme(getSiteTheme())
+        }
+      })
+
+      window.addEventListener('themechange', (event) => {
+        const theme = event.detail?.theme === 'dark' ? 'dark' : 'light'
+        sendGiscusTheme(theme)
+      })
+    </script>
+  </section>
+)}
