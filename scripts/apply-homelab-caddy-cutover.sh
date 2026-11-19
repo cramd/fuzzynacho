@@ -23,7 +23,7 @@ for line in lines:
     if not skip:
         if stripped.endswith("{") and any(stripped == f"{host} {{" for host in blocks):
             skip = True
-            depth = 0
+            depth = 1
             continue
     if skip:
         open_count = line.count("{")
@@ -39,7 +39,7 @@ for line in lines:
 
 new_text = "\n".join(out).strip() + "\n"
 for host in blocks:
-    if f"{host} {{" in new_text:
+    if re.search(rf"^{re.escape(host)} \\{{", new_text, re.M):
         raise SystemExit(f"Failed to remove {host} from Caddyfile")
 path.write_text(new_text)
 print("Removed fuzzynacho.org + www from Caddyfile (subdomains unchanged)")
