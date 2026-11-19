@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://fuzzynacho.org',
+  site: 'https://www.fuzzynacho.org',
   base: '/blog',
   output: 'static',
   trailingSlash: 'never',

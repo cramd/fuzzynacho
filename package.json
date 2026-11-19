@@ -1,0 +1,15 @@
+{
+  "name": "fuzzynacho",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "npm run build --prefix blog",
+    "dev": "npm run dev --prefix blog",
+    "deploy": "echo \"Production: push to master — Cloudflare Pages builds from GitHub.\"",
+    "deploy:homelab:legacy": "bash deploy.sh",
+    "deploy:pages": "npm run build && wrangler pages deploy blog/dist --project-name=fuzzynacho --branch=master"
+  }
+}

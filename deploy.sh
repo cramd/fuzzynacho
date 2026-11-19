@@ -18,3 +18,4 @@ rsync -avz --delete \
     root@192.168.0.62:/var/www/blog/
 
 echo "==> Deployment Complete!"
+echo "    (Legacy homelab rsync — production is Cloudflare Pages; see docs/cloudflare-pages.md)"
